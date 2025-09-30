@@ -44,11 +44,11 @@ const getAllDados = function(){
         return MESSAGE_ERROR
 }
 
-const getDadosById = function(id){
+const getDadosByNumber = function(number){
     let message = {status: true, statuscode:200, development: 'Carlos Eduardo', nome_do_usuario:[], informacoes:[], contatos: []}
 
     dados.contatos['whats-users'].forEach(function(item){
-        if(item.id == id)
+        if(item.number == number)
         {message.nome_do_usuario.push(item.nickname)
 
         message.informacoes.push(item['profile-image'])
@@ -60,12 +60,112 @@ const getDadosById = function(id){
             message.contatos.push(contacts.name)
         })    
     }})
-    if(id !== '')
+    if(number !== '')
     return message
     else
     return MESSAGE_ERROR
 }
 
+const getDadosContactsByNumber = function(number){
+    let message = {status: true, statuscode:200, development: 'Carlos Eduardo', nome_do_contato:[]}
+
+    dados.contatos['whats-users'].forEach(function(item){
+        if(item.number == number){
+            message.nome_do_contato = item.account
+            contatos = item.contacts.map(function(contacts){
+               seu_contato = contacts.name
+               foto = contacts.image
+               descricao = contacts.description
+
+                return{seu_contato, foto, descricao}
+            })
+        message.contatos = contatos
+        } 
+    })
+    if(number !== '')
+    return message
+    else
+    return MESSAGE_ERROR
+}
+
+const getAllMessagesByNumber = function(number){
+    let message = {status: true, statuscode:200, development: 'Carlos Eduardo', nome_do_contato:[], conversas: []}
+
+    dados.contatos['whats-users'].forEach(function(item){
+        if(item.number == number){
+            message.nome_do_contato = item.account
+
+            item.contacts.forEach(function(contacts){
+                contacts.messages.forEach(function(mensagens){
+                    const conversa = { enviado_para: mensagens.sender,
+                        conteudo: mensagens.content,
+                        horario: mensagens.time}
+                    message.conversas.push(conversa)
+                })
+            })
+        } 
+    })
+    if(number !== '')
+    return message
+    else
+    return MESSAGE_ERROR
+}
+
+const getConversaByNumberAndName = function(number, numberRecebedor){
+    let message = {status: true, statuscode:200, development: 'Carlos Eduardo', nome_do_contato:[], nome_do_recebedor:[], conversas: []}
+
+    dados.contatos['whats-users'].forEach(function(item){
+        item.contacts.forEach(function(contacts){
+            if(item.number == number && contacts.number == numberRecebedor){
+                message.nome_do_contato = item.account
+                message.nome_do_recebedor = contacts.name
+
+                let nome_do_recebedor = contacts.name
+
+                contacts.messages.forEach(function(mensagens){
+                    if(mensagens.sender == nome_do_recebedor || mensagens.sender == "me"){
+                       let conversa = {enviado_para: mensagens.sender,
+                            conteudo: mensagens.content,
+                            horario: mensagens.time
+                        }
+                        message.conversas.push(conversa)
+                    }
+                })
+            } 
+        })
+    })
+    if(number !== '' || numberRecebedor !== "")
+    return message
+    else
+    return MESSAGE_ERROR
+}
+
+const getFilterByKeyWord = function (number, numberRecebedor, keyWord) {
+    let message = {status: true, statuscode:200, development: 'Carlos Eduardo', nome_do_contato:[], nome_do_recebedor:[], conversas: []}
+
+    dados.contatos['whats-users'].forEach(function (item) {
+        item.contacts.forEach(function (contacts) {
+        if (item.number === number && contacts.number === numberRecebedor) {
+            message.nome_do_contato = item.account
+            message.nome_do_recebedor = contacts.name
+                    contacts.messages.forEach(function (mensagens) {
+                        if(mensagens.content.toUpperCase().includes(keyWord.toUpperCase())){
+                            let conversa = { enviado_para: mensagens.sender,
+                                conteudo: mensagens.content,
+                                horario: mensagens.time
+                            }
+                        message.conversas.push(conversa)
+                        }
+                    })
+                }
+            })
+        })
+
+        if(number !== "" || numberRecebedor !== "" || keyWord !== "")
+            return message
+         else 
+            return MESSAGE_ERROR
+    }
 
 
-console.log(getAllDados())
+console.log(getFilterByKeyWord("11987876567","269999799601", "g"))
