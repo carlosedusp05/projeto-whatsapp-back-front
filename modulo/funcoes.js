@@ -168,4 +168,11 @@ const getFilterByKeyWord = function (number, numberRecebedor, keyWord) {
     }
 
 
-console.log(getFilterByKeyWord("11987876567","269999799601", "g"))
+module.exports = {
+    getAllDados,
+    getAllMessagesByNumber,
+    getConversaByNumberAndName,
+    getDadosByNumber,
+    getDadosContactsByNumber,
+    getFilterByKeyWord
+}
