@@ -111,7 +111,7 @@ const getAllMessagesByNumber = function(number){
     return MESSAGE_ERROR
 }
 
-const getConversaByNumberAndName = function(number, numberRecebedor){
+const getConversaByNumberAndNumberRecebedor = function(number, numberRecebedor){
     let message = {status: true, statuscode:200, development: 'Carlos Eduardo', nome_do_contato:[], nome_do_recebedor:[], conversas: []}
 
     dados.contatos['whats-users'].forEach(function(item){
@@ -167,11 +167,12 @@ const getFilterByKeyWord = function (number, numberRecebedor, keyWord) {
             return MESSAGE_ERROR
     }
 
+    
 
 module.exports = {
     getAllDados,
     getAllMessagesByNumber,
-    getConversaByNumberAndName,
+    getConversaByNumberAndNumberRecebedor,
     getDadosByNumber,
     getDadosContactsByNumber,
     getFilterByKeyWord
