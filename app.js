@@ -14,7 +14,7 @@ const dados = require('./modulo/funcoes.js')
 
 //Define a porta padrão da API, se for em um servidor de nuvem não temos acesso a porta
 //em execução local podemos falar definir uma porta livre
-const PORT = process.PORT || 8090
+// const PORT = process.PORT || 8090
 
 //Instancia na classe do express
 const app = express()
