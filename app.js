@@ -28,14 +28,14 @@ app.use((request, response, next)=>{
 })
 
 //EndPoints
-app.get('v1/whatsapp/documento', function(request, response){
+app.get('/v1/whatsapp/documento', function(request, response){
     let documento = dados.getAllDados()
 
     response.status(documento.statuscode)
     response.json(documento)
 })
 
-app.get('v1/whatsapp/usuario/:number', function(request, response){
+app.get('/v1/whatsapp/usuario/:number', function(request, response){
     let numero = request.params.number
     let usuarioDados = dados.getDadosByNumber(numero)
 
@@ -43,7 +43,7 @@ app.get('v1/whatsapp/usuario/:number', function(request, response){
     response.json(usuarioDados)
 })
 
-app.get('v1/whatsapp/usuario/contatos/:number', function(request, response){
+app.get('/v1/whatsapp/usuario/contatos/:number', function(request, response){
     let numero = request.params.number
     let usuarioContatos = dados.getDadosContactsByNumber(numero)
 
@@ -51,7 +51,7 @@ app.get('v1/whatsapp/usuario/contatos/:number', function(request, response){
     response.json(usuarioContatos)
 })
 
-app.get('v1/whatsapp/usuario/mensagens/:number', function(request, response){
+app.get('/v1/whatsapp/usuario/mensagens/:number', function(request, response){
     let numero = request.params.number
     let usuarioMensagens = dados.getAllMessagesByNumber(numero)
 
@@ -59,23 +59,23 @@ app.get('v1/whatsapp/usuario/mensagens/:number', function(request, response){
     response.json(usuarioMensagens)
 })
 
-app.get('v1/whatsapp/usuario/conversa/', function(request, response){
-    let numero = request.query.number
+app.get('/v1/whatsapp/conversa/:number', function(request, response){
+    let numero = request.params.number
     let numeroRecebedor = request.query.numberRecebedor
-    let usuariosConversa = dados.getDadosByNumber(numero, numeroRecebedor)
+    let conversa  = dados.getConversaByNumberAndName(numero, numeroRecebedor)
 
-    response.status(usuariosConversa.statuscode)
-    response.json(usuariosConversa)
+    response.status(conversa.statuscode)
+    response.json(conversa)
 })
 
-app.get('v1/whatsapp/usuario/conversa/filtro/', function(request, response){
-    let numero = request.query.number
-    let numeroRecebedor = request.query.numberRecebedor
+app.get('/v1/whatsapp/usuario/conversa/filtro/:number', function(request, response){
+    let numero = request.params.number
+    let numeroRecebedor  = request.query.numberRecebedor
     let palavraChave = request.query.keyWord
-    let filtroConversa = dados.getFilterByKeyWord(numero, numeroRecebedor, palavraChave)
+    let filtro = dados.getFilterByKeyWord(numero, numeroRecebedor, palavraChave)
 
-    response.status(filtroConversa.statuscode)
-    response.json(filtroConversa)
+    response.status(filtro.statuscode)
+    response.json(filtro)
 })
 
 app.listen(PORT, function(){
