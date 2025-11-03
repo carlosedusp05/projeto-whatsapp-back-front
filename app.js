@@ -29,10 +29,10 @@ app.use((request, response, next)=>{
 
 //EndPoints
 app.get('/v1/whatsapp/documento', function(request, response){
-    let documento = dados.getAllDados()
+    let dadosUsuario = dados.getAllDados()
 
-    response.status(documento.statuscode)
-    response.json(documento)
+    response.status(dadosUsuario.statuscode)
+    response.json(dadosUsuario)
 })
 
 app.get('/v1/whatsapp/usuario/:number', function(request, response){

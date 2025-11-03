@@ -11,37 +11,37 @@ const dados = require('./contatos.js')
 //Mensagem de erro
 const MESSAGE_ERROR = {status:false, statuscode: 500, development:'Carlos Eduardo'}
 
-const getAllDados = function(){
-    //Mensagem padrão do retorno da função
-    let message = {status: true, statuscode:200, development: 'Carlos Eduardo', contatos: []}
+const getAllDados = function () {
+    let message = { status: true, statuscode: 200, development: 'Carlos Eduard', contatos: [] }
 
-    dados.contatos['whats-users'].forEach(function(item){
-        message.contatos.push(item.id)
-        message.contatos.push(item.account)
-        message.contatos.push(item.nickname)
-        message.contatos.push(item['created-since'])
-        message.contatos.push(item['profile-image'])
-        message.contatos.push(item.number)
-        message.contatos.push(item.background)
-        item.contacts.forEach(function(contacts){
-            message.contatos.push(contacts.name)
-            message.contatos.push(contacts.number)
-            message.contatos.push(contacts.description)
-            message.contatos.push(contacts.image)
+    dados.contatos['whats-users'].forEach(function (dados) {
+        id = dados.id
+        conta = dados.account
+        nome = dados.nickname
+        dataInicio = dados['created-since'].start
+        dataFinalizacao = dados['created-since'].end
+        fotoPerfil = dados['profile-image']
+        telefone = dados.number
+        planoDeFundo = dados.background
+        contatos = dados.contacts.map(function (contato) {
+            nome = contato.name
+            telefone = contato.number
+            descricao = contato.description
+            fotoPerfilContato = contato.image
+            mensagens = contato.messages.map(function (mensagem) {
+                enviado = mensagem.sender
+                texto = mensagem.content
+                horario = mensagem.time
+                return { enviado, texto, horario }
+            })
 
-        //looping para entrar no contacts e pegar o array messages, usando if e spreab para ficar mais limpo
-        if(contacts.messages && Array.isArray){
-            message.contatos.push(...contacts.messages)
-        }
-        }
-        
-    )})
+            return { nome, telefone, descricao, fotoPerfilContato, mensagens }
+        })
+        usuario = { id, conta, nome, dataInicio, dataFinalizacao, fotoPerfil, telefone, planoDeFundo, contatos }
+        message.contatos.push(usuario)
+    })
 
-    //tratativa para retorno da função
-    if(message.contatos.length > 0)
-        return message
-    else
-        return MESSAGE_ERROR
+    return message
 }
 
 const getDadosByNumber = function(number){
